@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.329
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SpeedifyCliWrapper", "SpeedifyCliWrapper\SpeedifyCliWrapper.csproj", "{DEC330D4-62E1-4E93-8C10-2E1FCAD7EC99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SppedifyCliWrapperTests", "SppedifyCliWrapperTests\SppedifyCliWrapperTests.csproj", "{F494B7EB-1FE7-4635-8AF7-FC8F8C0A620E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DEC330D4-62E1-4E93-8C10-2E1FCAD7EC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DEC330D4-62E1-4E93-8C10-2E1FCAD7EC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DEC330D4-62E1-4E93-8C10-2E1FCAD7EC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DEC330D4-62E1-4E93-8C10-2E1FCAD7EC99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F494B7EB-1FE7-4635-8AF7-FC8F8C0A620E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F494B7EB-1FE7-4635-8AF7-FC8F8C0A620E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F494B7EB-1FE7-4635-8AF7-FC8F8C0A620E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F494B7EB-1FE7-4635-8AF7-FC8F8C0A620E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CE6A66E5-6BD1-45D0-A1DF-C4541B041C4B}
+	EndGlobalSection
+EndGlobal
