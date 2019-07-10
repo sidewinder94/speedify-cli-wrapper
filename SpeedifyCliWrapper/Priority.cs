@@ -28,5 +28,22 @@ namespace SpeedifyCliWrapper
 
             return result;
         }
+
+        public static bool operator ==(Priority first, Priority second)
+        {
+            return first != null && first.Equals(second);
+        }
+
+        public static bool operator !=(Priority first, Priority second)
+        {
+            return !(first == second);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var priority = obj as Priority;
+            return priority != null &&
+                   this.Value == priority.Value;
+        }
     }
 }

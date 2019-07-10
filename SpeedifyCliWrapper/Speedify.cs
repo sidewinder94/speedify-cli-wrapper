@@ -21,14 +21,14 @@ namespace SpeedifyCliWrapper
 
         private string _cliPath;
 
-        private T RunSpeedifyCommand<T>(bool multiRecord = false, int timeout = 60, params string[] args)
+        private T RunSpeedifyCommand<T>(int timeout = 60, params string[] args)
         {
-            var value = this.RunSpeedifyCommand(multiRecord, timeout, args);
+            var value = this.RunSpeedifyCommand(timeout, args);
 
             return JsonConvert.DeserializeObject<T>(value);
         }
 
-        private string RunSpeedifyCommand(bool multiRecord = false, int timeout = 60, params string[] args)
+        private string RunSpeedifyCommand(int timeout = 60, params string[] args)
         {
             if (timeout < 0)
             {
