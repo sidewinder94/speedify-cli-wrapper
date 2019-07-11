@@ -41,6 +41,8 @@ namespace SpeedifyCliWrapper
                 throw new ArgumentException("Timeout cannot be negative ", nameof(timeout));
             }
 
+            var timeoutSpan = new TimeSpan(0, 0, 60);
+
             var pi = new ProcessStartInfo(this.CliPath, string.Join(" ", args))
             {
                 RedirectStandardOutput = true,
@@ -60,8 +62,18 @@ namespace SpeedifyCliWrapper
             p.Start();
             p.BeginOutputReadLine();
 
-            p.WaitForExit((int)timeout * 1000);
+            while (!p.HasExited && (DateTime.Now - p.StartTime < timeoutSpan))
+            {
+                p.WaitForExit(200);
+            }
 
+            if (!p.HasExited)
+            {
+                p.WaitForExit(1);
+                p.Kill();
+            }
+
+            p.WaitForExit(1);
             p.Close();
 
             return outputBuffer.ToString();
@@ -73,6 +85,8 @@ namespace SpeedifyCliWrapper
             {
                 throw new ArgumentException("Timeout cannot be negative ", nameof(timeout));
             }
+
+            var timeoutSpan = new TimeSpan(0, 0, 60);
 
             if (!cancellationToken.CanBeCanceled)
             {
@@ -90,37 +104,62 @@ namespace SpeedifyCliWrapper
             var p = new Process()
             {
                 StartInfo = pi
-
             };
+
+            var sent = false;
 
             p.OutputDataReceived += (sender, eventArgs) =>
             {
+
                 outputBuffer.AppendLine(eventArgs.Data);
                 if (eventArgs.Data == string.Empty)
                 {
-                    callBack(outputBuffer.ToString());
-                    outputBuffer.Clear();
+                    if (!sent)
+                    {
+                        callBack(outputBuffer.ToString());
+                        outputBuffer.Clear();
+                        sent = true;
+                    }
+                }
+                else
+                {
+                    sent = false;
                 }
             };
 
             p.Start();
             p.BeginOutputReadLine();
 
-
             if (timeout > 0)
             {
-                p.WaitForExit((int)timeout * 1000);
+                while (!p.HasExited && (DateTime.Now - p.StartTime < timeoutSpan))
+                {
+                    p.WaitForExit(200);
+                }
+
+                if (!p.HasExited)
+                {
+                    p.WaitForExit(1);
+                    p.Kill();
+                }
+
+                p.WaitForExit(1);
                 p.Close();
-                return;
             }
 
             cancellationToken.Register(() =>
             {
+                p.WaitForExit(1);
                 p.Kill();
                 p.Close();
             });
 
-            p.WaitForExit();
+
+            while (!cancellationToken.IsCancellationRequested)
+            {
+                p.WaitForExit(200);
+            }
+
         }
 
 
@@ -174,16 +213,44 @@ namespace SpeedifyCliWrapper
             return this.RunSpeedifyCommand<SpeedifyVersion>(args: "version");
         }
 
-        public SpeedifyStats Stats(int duration = 0)
+        public SpeedifyStats Stats(int duration = 3)
         {
             var result = new SpeedifyStats();
 
-            var cancel = new CancellationTokenSource();
+            //Time at 3 is the minimum for which we'll get something back
+            var fusedJson = this.RunSpeedifyCommand(args: new[] { "stats", duration.ToString() });
 
-            this.LongRunningSpeedifyCommand((s) => this.HandleCustomJson(s, result), cancel.Token, 0, "stats", "10");
+            var splittedJson = fusedJson.Split(new[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var json in splittedJson.Where(sj => !string.IsNullOrWhiteSpace(sj)))
+            {
+                this.HandleCustomJson(json, result);
+            }
 
             return result;
         }
 
+        public void RefreshStats(SpeedifyStats toRefresh, int duration = 1, int timeout = 0)
+        {
+
+            var cancel = new CancellationTokenSource();
+
+            if (duration > 0)
+            {
+                cancel.CancelAfter(new TimeSpan(0, 0, duration));
+            }
+
+            this.AsynRefreshStats(toRefresh, cancel.Token, timeout).Wait();
+        }
+
+        public Task AsynRefreshStats(SpeedifyStats toRefresh, CancellationToken cancellationToken, int timeout = 0)
+        {
+            return Task.Run(() =>
+            {
+                this.LongRunningSpeedifyCommand(s => this.HandleCustomJson(s, toRefresh), cancellationToken,
+                    timeout, "stats");
+            });
+
+        }
     }
 }

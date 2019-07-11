@@ -47,28 +47,17 @@ namespace SppedifyCliWrapperTests
         {
             var wrapper = new Speedify();
 
-            var r = wrapper.Stats(10);
+            var updateCount = 0;
 
-            Assert.IsNotNull(r);
-            Assert.IsNotNull(r.State);
-        }
+            var pop = wrapper.Stats();
 
+            pop.PropertyChanged += (sender, args) => updateCount++;
 
-        [TestMethod]
-        public void DeserializationTest()
-        {
-            var str = @"[""state"",
-                        {
-                            ""state"":	""CONNECTED""
-                        }
-                        ]
-                        ";
+            wrapper.RefreshStats(pop, 60);
 
-            var obj = JsonConvert.DeserializeObject(str);
-            var obj2 = ((JArray)obj).Children();
-            var obj3 = obj2.Skip(1).First().ToObject<SpeedifyState>();
-
-            Assert.IsNotNull(obj3);
+            Assert.IsNotNull(pop);
+            Assert.IsNotNull(pop.State);
+            Assert.IsTrue(updateCount > 3);
         }
     }
 }
