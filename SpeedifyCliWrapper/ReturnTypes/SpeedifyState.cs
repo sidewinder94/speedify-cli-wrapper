@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using SpeedifyCliWrapper.Converters;
+using SpeedifyCliWrapper.Enums;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {

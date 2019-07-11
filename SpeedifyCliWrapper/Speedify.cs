@@ -17,7 +17,7 @@ namespace SpeedifyCliWrapper
 {
     public class Speedify
     {
-        private static string[] _possibleCliPaths =
+        private static readonly string[] PossibleCliPaths =
         {
             @"/Applications/Speedify.app/Contents/Resources/speedify_cli",
             @"C:\Program Files (x86)\Speedify\speedify_cli.exe",
@@ -191,7 +191,7 @@ namespace SpeedifyCliWrapper
                     return this._cliPath;
                 }
 
-                foreach (var possiblePath in _possibleCliPaths)
+                foreach (var possiblePath in PossibleCliPaths)
                 {
                     if (File.Exists(possiblePath))
                     {

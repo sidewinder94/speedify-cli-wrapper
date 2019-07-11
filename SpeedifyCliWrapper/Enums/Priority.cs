@@ -1,8 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-
-namespace SpeedifyCliWrapper
+﻿namespace SpeedifyCliWrapper.Enums
 {
     public enum Priority
     {

@@ -1,4 +1,4 @@
-﻿namespace SpeedifyCliWrapper
+﻿namespace SpeedifyCliWrapper.Enums
 {
     /// <summary>
     /// Enum specifying the state Speedify's connection is in
