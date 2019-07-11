@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using SpeedifyCliWrapper.Converters;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
@@ -8,19 +9,19 @@ namespace SpeedifyCliWrapper.ReturnTypes
         public class AdapterDataUsage
         {
             [JsonProperty("usageMonthly")]
-            public int UsageMonthly { get; set; }
+            public long UsageMonthly { get; set; }
             [JsonProperty("usageDaily")]
-            public int UsageDaily { get; set; }
+            public long UsageDaily { get; set; }
             [JsonProperty("usageMonthlyLimit")]
-            public int UsageMonthlyLimit { get; set; }
+            public long UsageMonthlyLimit { get; set; }
             [JsonProperty("usageMonthlyResetDay")]
-            public int UsageMonthlyResetDay { get; set; }
+            public long UsageMonthlyResetDay { get; set; }
             [JsonProperty("usageDailyLimit")]
-            public int UsageDailyLimit { get; set; }
+            public long UsageDailyLimit { get; set; }
             [JsonProperty("usageDailyBoost")]
-            public int UsageDailyBoost { get; set; }
+            public long UsageDailyBoost { get; set; }
             [JsonProperty("overlimitRatelimit")]
-            public int OverlimitRatelimit { get; set; }
+            public long OverlimitRatelimit { get; set; }
         }
 
         [JsonProperty("adapterID")]
@@ -30,10 +31,11 @@ namespace SpeedifyCliWrapper.ReturnTypes
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("state")]
-        public SpeedifyState State { get; set; }
+        public string State { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; }
         [JsonProperty("priority")]
+        [JsonConverter(typeof(EnumConverter))]
         public Priority Priority { get; set; }
         [JsonProperty("connectedNetworkName")]
         public string ConnectedNetworkName { get; set; }
@@ -41,7 +43,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
         public string ConnectedNetworkBssid { get; set; }
         [JsonProperty("rateLimit")]
         public long RateLimit { get; set; }
-        [JsonProperty("AdapterDataUsage")]
+        [JsonProperty("dataUsage")]
         public AdapterDataUsage DataUsage { get; set; }
     }
 }

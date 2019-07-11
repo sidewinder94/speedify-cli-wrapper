@@ -24,6 +24,37 @@ namespace SppedifyCliWrapperTests
         }
 
         [TestMethod]
+        public void HandleCustomJsonTest()
+        {
+            var str = @"[""state"",
+                        {
+                            ""state"":	""CONNECTED""
+                        }
+                        ]
+                        ";
+            var pop = new SpeedifyStats();
+
+            var spd = new Speedify();
+
+            spd.HandleCustomJson(str, pop);
+
+            Assert.IsNotNull(pop.State);
+
+        }
+
+        [TestMethod]
+        public void StatsTest()
+        {
+            var wrapper = new Speedify();
+
+            var r = wrapper.Stats(10);
+
+            Assert.IsNotNull(r);
+            Assert.IsNotNull(r.State);
+        }
+
+
+        [TestMethod]
         public void DeserializationTest()
         {
             var str = @"[""state"",
