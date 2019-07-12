@@ -13,7 +13,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
     {
         public SpeedifyState State
         {
-            get { return this._state; }
+            get => this._state;
             private set
             {
                 if (Equals(value, this._state)) return;
@@ -24,7 +24,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
 
         public List<SpeedifyAdapter> Adapters
         {
-            get { return this._adapters; }
+            get => this._adapters;
             private set
             {
                 if (Equals(value, this._adapters)) return;
@@ -35,7 +35,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
 
         public SpeedifyConnectionStats ConnectionStats
         {
-            get { return this._connectionStats; }
+            get => this._connectionStats;
             private set
             {
                 if (Equals(value, this._connectionStats)) return;
@@ -46,7 +46,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
 
         public SpeedifySessionStats SessionStats
         {
-            get { return this._sessionStats; }
+            get => this._sessionStats;
             private set
             {
                 if (Equals(value, this._sessionStats)) return;
