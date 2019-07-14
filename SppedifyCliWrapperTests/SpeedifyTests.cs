@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using SpeedifyCliWrapper;
+using SpeedifyCliWrapper.Enums;
 using SpeedifyCliWrapper.ReturnTypes;
 
 
@@ -24,25 +26,6 @@ namespace SppedifyCliWrapperTests
         }
 
         [TestMethod]
-        public void HandleCustomJsonTest()
-        {
-            var str = @"[""state"",
-                        {
-                            ""state"":	""CONNECTED""
-                        }
-                        ]
-                        ";
-            var pop = new SpeedifyStats();
-
-            var spd = new Speedify();
-
-            spd.HandleCustomJson(str, pop);
-
-            Assert.IsNotNull(pop.State);
-
-        }
-
-        [TestMethod]
         public void StatsTest()
         {
             var wrapper = new Speedify();
@@ -58,6 +41,36 @@ namespace SppedifyCliWrapperTests
             Assert.IsNotNull(pop);
             Assert.IsNotNull(pop.State);
             Assert.IsTrue(updateCount > 3);
+        }
+
+        [TestMethod]
+        public void ShowConfigTest()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.Settings();
+
+            Assert.IsNotNull(set);
+        }
+
+        [TestMethod]
+        public void SwitchModes()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.Settings();
+
+            var originalMode = set.BondingMode;
+
+            var notUsedString = Enum.GetNames(typeof(BondingMode)).First(bm => bm != originalMode.ToString());
+
+            wrapper.Mode((BondingMode)Enum.Parse(typeof(BondingMode), notUsedString));
+
+            Thread.Sleep(15);
+
+            wrapper.Mode(originalMode);
+
+            Assert.IsNotNull(set);
         }
     }
 }

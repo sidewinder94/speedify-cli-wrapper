@@ -10,6 +10,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpeedifyCliWrapper.Enums;
+using SpeedifyCliWrapper.Modules;
 using SpeedifyCliWrapper.ReturnTypes;
 using Timer = System.Timers.Timer;
 
@@ -27,7 +29,38 @@ namespace SpeedifyCliWrapper
 
         private string _cliPath;
 
-        private T RunSpeedifyCommand<T>(int timeout = 60, params string[] args)
+        public string CliPath
+        {
+            get
+            {
+                if (!string.IsNullOrWhiteSpace(this._cliPath))
+                {
+                    return this._cliPath;
+                }
+
+                foreach (var possiblePath in PossibleCliPaths)
+                {
+                    if (File.Exists(possiblePath))
+                    {
+                        this._cliPath = possiblePath;
+                        return this._cliPath;
+                    }
+                }
+
+                throw new InvalidOperationException("Speedify CLI executable not found");
+            }
+        }
+
+        public Show Show { get; private set; }
+
+        public Speedify()
+        {
+            this.Show = new Show(this);
+        }
+
+        #region Run Command Methods
+
+        internal T RunSpeedifyCommand<T>(int timeout = 60, params string[] args)
         {
             var value = this.RunSpeedifyCommand(timeout, args);
 
@@ -41,7 +74,7 @@ namespace SpeedifyCliWrapper
                 throw new ArgumentException("Timeout cannot be negative ", nameof(timeout));
             }
 
-            var timeoutSpan = new TimeSpan(0, 0, 60);
+            var timeoutSpan = new TimeSpan(0, 0, timeout);
 
             var pi = new ProcessStartInfo(this.CliPath, string.Join(" ", args))
             {
@@ -86,7 +119,7 @@ namespace SpeedifyCliWrapper
                 throw new ArgumentException("Timeout cannot be negative ", nameof(timeout));
             }
 
-            var timeoutSpan = new TimeSpan(0, 0, 60);
+            var timeoutSpan = new TimeSpan(0, 0, timeout);
 
             if (!cancellationToken.CanBeCanceled)
             {
@@ -162,8 +195,7 @@ namespace SpeedifyCliWrapper
 
         }
 
-
-        public void HandleCustomJson<T>(string json, T objectToPopulate) where T : ICustomJson, new()
+        private void HandleCustomJson<T>(string json, T objectToPopulate) where T : ICustomJson, new()
         {
             var jsonObject = JsonConvert.DeserializeObject(json);
             var jsonChildrens = ((JArray)jsonObject).Children();
@@ -182,43 +214,32 @@ namespace SpeedifyCliWrapper
             mi.Invoke(objectToPopulate, new[] { jsonChildrens.Skip(1).First().ToObject(typeToStore) });
         }
 
-        public string CliPath
-        {
-            get
-            {
-                if (!string.IsNullOrWhiteSpace(this._cliPath))
-                {
-                    return this._cliPath;
-                }
-
-                foreach (var possiblePath in PossibleCliPaths)
-                {
-                    if (File.Exists(possiblePath))
-                    {
-                        this._cliPath = possiblePath;
-                        return this._cliPath;
-                    }
-                }
-
-                throw new InvalidOperationException("Speedify CLI executable not found");
-            }
-        }
+        #endregion
 
         /// <summary>
         /// Returns current speedify version
         /// </summary>
         /// <returns></returns>
-        public SpeedifyVersion Version()
+        public SpeedifyVersion Version(int timeout = 60)
         {
-            return this.RunSpeedifyCommand<SpeedifyVersion>(args: "version");
+            return this.RunSpeedifyCommand<SpeedifyVersion>(args: "version", timeout: timeout);
         }
 
-        public SpeedifyStats Stats(int duration = 3)
+        #region Stats related methods
+
+        /// <summary>
+        /// Returns a populated stats object
+        /// </summary>
+        /// <param name="duration">The duration to wait for the speedify CLI to gather the data in seconds</param>
+        /// <param name="timeout">Returns after the given duration in seconds if the process didn't return </param>
+        /// <returns>A stats object</returns>
+        /// <remarks>A duration less than 3 will probably not return any result</remarks>
+        public SpeedifyStats Stats(int duration = 3, int timeout = 60)
         {
             var result = new SpeedifyStats();
 
             //Time at 3 is the minimum for which we'll get something back
-            var fusedJson = this.RunSpeedifyCommand(args: new[] { "stats", duration.ToString() });
+            var fusedJson = this.RunSpeedifyCommand(args: new[] { "stats", duration.ToString() }, timeout: timeout);
 
             var splittedJson = fusedJson.Split(new[] { Environment.NewLine + Environment.NewLine }, StringSplitOptions.RemoveEmptyEntries);
 
@@ -230,9 +251,15 @@ namespace SpeedifyCliWrapper
             return result;
         }
 
+        /// <summary>
+        /// Refresh the current stats objects, by default returns after 1 sec
+        /// </summary>
+        /// <param name="toRefresh">The object to update</param>
+        /// <param name="duration">The duration the command should run 0 is indefinite</param>
+        /// <param name="timeout">The maximum timeout 0 is indefinite</param>
+        /// <remarks>The timeout and duration are there to keep each other in check, the lowest one should make the method return</remarks>
         public void RefreshStats(SpeedifyStats toRefresh, int duration = 1, int timeout = 0)
         {
-
             var cancel = new CancellationTokenSource();
 
             if (duration > 0)
@@ -243,6 +270,13 @@ namespace SpeedifyCliWrapper
             this.AsynRefreshStats(toRefresh, cancel.Token, timeout).Wait();
         }
 
+        /// <summary>
+        /// Refresh the current stats object asynchronously, by default will run until cancelled or the timeout is hit
+        /// </summary>
+        /// <param name="toRefresh">The object to be updated while the method runs</param>
+        /// <param name="cancellationToken">The cancellation token used to check if the method should stop</param>
+        /// <param name="timeout">If hit before the cancellation token is cancelled, the refresh will stop</param>
+        /// <returns>The task that is running the refresh.</returns>
         public Task AsynRefreshStats(SpeedifyStats toRefresh, CancellationToken cancellationToken, int timeout = 0)
         {
             return Task.Run(() =>
@@ -251,6 +285,13 @@ namespace SpeedifyCliWrapper
                     timeout, "stats");
             });
 
+        }
+
+        #endregion
+
+        public SpeedifySettings Mode(BondingMode mode = BondingMode.Speed, int timeout = 60)
+        {
+            return this.RunSpeedifyCommand<SpeedifySettings>(args: new[] { "mode", mode.ToString().ToLower() }, timeout: timeout);
         }
     }
 }
