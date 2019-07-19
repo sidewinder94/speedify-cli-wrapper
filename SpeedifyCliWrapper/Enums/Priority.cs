@@ -5,6 +5,7 @@
         Always,
         Backup,
         Secondary,
-        Never
+        Never,
+        SpeedtTest
     }
 }
