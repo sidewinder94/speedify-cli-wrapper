@@ -80,6 +80,7 @@ namespace SpeedifyCliWrapper
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
+                CreateNoWindow = true
             };
 
             StringBuilder outputBuffer = new StringBuilder();
@@ -130,6 +131,7 @@ namespace SpeedifyCliWrapper
             {
                 RedirectStandardOutput = true,
                 UseShellExecute = false,
+                CreateNoWindow = true
             };
 
             StringBuilder outputBuffer = new StringBuilder();

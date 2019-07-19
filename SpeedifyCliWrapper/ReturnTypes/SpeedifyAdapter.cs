@@ -32,7 +32,8 @@ namespace SpeedifyCliWrapper.ReturnTypes
         [JsonProperty("name")]
         public string Name { get; set; }
         [JsonProperty("state")]
-        public string State { get; set; }
+        [JsonConverter(typeof(EnumConverter))]
+        public AdapterState State { get; set; }
         [JsonProperty("type")]
         public string Type { get; set; }
         [JsonProperty("priority")]
