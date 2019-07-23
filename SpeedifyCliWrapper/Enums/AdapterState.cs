@@ -3,6 +3,8 @@
     public enum AdapterState
     {
         Connected,
-        Disconnected
+        Disconnected,
+        Connecting,
+        Disconnecting
     }
 }
