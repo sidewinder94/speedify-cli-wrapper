@@ -6,11 +6,13 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using JetBrains.Annotations;
+using Newtonsoft.Json;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
     public class SpeedifyStats : ICustomJson, INotifyPropertyChanged
     {
+        [JsonProperty("state")]
         public SpeedifyState State
         {
             get => this._state;
@@ -22,6 +24,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
             }
         }
 
+        [JsonProperty("adapters")]
         public List<SpeedifyAdapter> Adapters
         {
             get => this._adapters;
@@ -33,6 +36,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
             }
         }
 
+        [JsonProperty("connection_stats")]
         public SpeedifyConnectionStats ConnectionStats
         {
             get => this._connectionStats;
@@ -44,6 +48,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
             }
         }
 
+        [JsonProperty("session_stats")]
         public SpeedifySessionStats SessionStats
         {
             get => this._sessionStats;
@@ -63,11 +68,17 @@ namespace SpeedifyCliWrapper.ReturnTypes
 
         public SpeedifyStats()
         {
-            this._accessorDictionary = this.GetType().GetProperties().ToDictionary(kp => kp.Name.ToLower(), vp => vp.SetMethod);
+            this._accessorDictionary = this.GetType()
+                .GetProperties()
+                .SelectMany(p =>
+                    p.GetCustomAttributes(typeof(JsonPropertyAttribute))
+                    .ToDictionary(
+                        k => ((JsonPropertyAttribute)k).PropertyName, v => p.SetMethod))
+                        .ToDictionary(kv => kv.Key, v => v.Value);
         }
 
 
-        public MethodInfo this[string part] => this._accessorDictionary[part.Replace("_", "")];
+        public MethodInfo this[string part] => this._accessorDictionary[part];
 
         public event PropertyChangedEventHandler PropertyChanged;
 
