@@ -31,5 +31,26 @@ namespace SppedifyCliWrapperTests.Modules
             Assert.IsNotNull(set);
             Assert.IsTrue(set.Servers.Any());
         }
+
+        [TestMethod]
+        public void ShowPrivacy()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.Privacy();
+
+            Assert.IsNotNull(set);
+        }
+
+        [TestMethod]
+        public void ShowAdapters()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.Adapters();
+
+            Assert.IsNotNull(set);
+            Assert.IsTrue(set.Count > 0);
+        }
     }
 }

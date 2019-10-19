@@ -22,6 +22,14 @@ namespace SpeedifyCliWrapper.Modules
             return this._wrapper.RunSpeedifyCommand<SpeedifySettings>(timeout, args: new[] { "show", "settings" });
         }
 
+        public SpeedifyPrivacy Privacy(int timeout = 60)
+        {
+            return this._wrapper.RunSpeedifyCommand<SpeedifyPrivacy>(timeout, args: new[] { "show", "privacy" });
+        }
         
+        public List<SpeedifyAdapter> Adapters(int timeout = 60)
+        {
+            return this._wrapper.RunSpeedifyCommand<List<SpeedifyAdapter>>(timeout, args: new[] { "show", "adapters" });
+        }
     }
 }
