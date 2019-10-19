@@ -52,6 +52,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Modules\ShowModuleTests.cs" />
     <Compile Include="SpeedifyTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

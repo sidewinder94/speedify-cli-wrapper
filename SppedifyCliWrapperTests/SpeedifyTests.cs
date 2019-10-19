@@ -44,16 +44,6 @@ namespace SppedifyCliWrapperTests
         }
 
         [TestMethod]
-        public void ShowConfigTest()
-        {
-            var wrapper = new Speedify();
-
-            var set = wrapper.Show.Settings();
-
-            Assert.IsNotNull(set);
-        }
-
-        [TestMethod]
         public void SwitchModes()
         {
             var wrapper = new Speedify();

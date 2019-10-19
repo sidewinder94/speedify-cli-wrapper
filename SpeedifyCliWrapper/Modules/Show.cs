@@ -1,4 +1,5 @@
 ﻿using SpeedifyCliWrapper.ReturnTypes;
+using System.Collections.Generic;
 
 namespace SpeedifyCliWrapper.Modules
 {
@@ -11,9 +12,16 @@ namespace SpeedifyCliWrapper.Modules
             this._wrapper = speedify;
         }
 
-        public SpeedifySettings Settings()
+        public SpeedifyServers Servers(int timeout = 60)
         {
-            return this._wrapper.RunSpeedifyCommand<SpeedifySettings>(args: new[] { "show", "settings" });
+            return this._wrapper.RunSpeedifyCommand<SpeedifyServers>(timeout, args: new[] { "show", "servers" });
         }
+
+        public SpeedifySettings Settings(int timeout = 60)
+        {
+            return this._wrapper.RunSpeedifyCommand<SpeedifySettings>(timeout, args: new[] { "show", "settings" });
+        }
+
+        
     }
 }
