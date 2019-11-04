@@ -31,5 +31,15 @@ namespace SpeedifyCliWrapper.Modules
         {
             return this._wrapper.RunSpeedifyCommand<List<SpeedifyAdapter>>(timeout, args: new[] { "show", "adapters" });
         }
+
+        public SpeedifyServer CurrentServer(int timeout = 60)
+        {
+            return this._wrapper.RunSpeedifyCommand<SpeedifyServer>(timeout, args: new[] { "show", "currentserver" });
+        }
+
+        public SpeedifyUser User(int timeout = 60)
+        {
+            return this._wrapper.RunSpeedifyCommand<SpeedifyUser>(timeout, args: new[] { "show", "user" });
+        }
     }
 }

@@ -52,5 +52,15 @@ namespace SppedifyCliWrapperTests.Modules
             Assert.IsNotNull(set);
             Assert.IsTrue(set.Count > 0);
         }
+
+        [TestMethod]
+        public void ShowCurrentServer()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.CurrentServer();
+
+            Assert.IsNotNull(set);
+        }
     }
 }

@@ -19,7 +19,13 @@ namespace SpeedifyCliWrapper.ReturnTypes
         [JsonProperty("num")]
         public uint Num { get; set; }
 
-        [JsonProperty("isProvate")]
+        [JsonProperty("isPrivate")]
         public bool IsPrivate { get; set; }
+
+        [JsonProperty("torrentAllowed")]
+        public bool TorrentAllowed { get; set; }
+
+        [JsonProperty("publicIP")]
+        public List<string> PublicIps { get; set; }
     }
 }
