@@ -4,10 +4,11 @@
     <TargetFrameworks>netstandard2.0;net462;net45</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.9-pre</Version>
-    <AssemblyVersion>1.0.9.0</AssemblyVersion>
-    <FileVersion>1.0.9.0</FileVersion>
-    <PackageReleaseNotes>Added some more methods from the "Show" module</PackageReleaseNotes>
+    <Version>1.0.10-pre</Version>
+    <AssemblyVersion>1.0.10.0</AssemblyVersion>
+    <FileVersion>1.0.10.0</FileVersion>
+    <PackageReleaseNotes>Finished with the show module.
+The enums are now nullable in case an unexpected value occurs</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>

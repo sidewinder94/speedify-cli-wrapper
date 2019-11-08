@@ -296,7 +296,7 @@ namespace SpeedifyCliWrapper
 
         #endregion
 
-        public SpeedifySettings Mode(BondingMode mode = BondingMode.Speed, int timeout = 60)
+        public SpeedifySettings Mode(BondingMode? mode = BondingMode.Speed, int timeout = 60)
         {
             return this.RunSpeedifyCommand<SpeedifySettings>(args: new[] { "mode", mode.ToString().ToLower() }, timeout: timeout);
         }

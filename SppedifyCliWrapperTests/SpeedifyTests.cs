@@ -36,7 +36,7 @@ namespace SppedifyCliWrapperTests
 
             pop.PropertyChanged += (sender, args) => updateCount++;
 
-            wrapper.RefreshStats(pop, 60);
+            wrapper.RefreshStats(pop, 15);
 
             Assert.IsNotNull(pop);
             Assert.IsNotNull(pop.State);

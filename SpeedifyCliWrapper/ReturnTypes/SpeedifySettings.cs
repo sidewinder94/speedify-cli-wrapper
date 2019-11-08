@@ -37,14 +37,14 @@ namespace SpeedifyCliWrapper.ReturnTypes
 
         [JsonProperty("bondingMode")]
         [JsonConverter(typeof(EnumConverter))]
-        public BondingMode BondingMode { get; set; }
+        public BondingMode? BondingMode { get; set; }
 
         [JsonProperty("startupConnect")]
         public bool StartupConnect { get; set; }
 
         [JsonProperty("transportMode")]
         [JsonConverter(typeof(EnumConverter))]
-        public TransportMode TransportMode { get; set; }
+        public TransportMode? TransportMode { get; set; }
 
         [JsonProperty("perConnectionEncryptionEnabled")]
         public bool PerConnectionEncryptionEnabled { get; set; }

@@ -7,6 +7,8 @@ namespace SpeedifyCliWrapper.Converters
 {
     public class EnumConverter : JsonConverter
     {
+        
+
         public override bool CanConvert(Type objectType)
         {
             return false;
@@ -17,12 +19,26 @@ namespace SpeedifyCliWrapper.Converters
         {
             var value = (string)reader.Value;
 
-            if (!objectType.IsEnum)
+            bool isEnumerable = objectType.IsEnum 
+                || (objectType.IsGenericType 
+                    && objectType.GetGenericTypeDefinition() == typeof(Nullable<>) 
+                    && objectType.GetGenericArguments()[0].IsEnum);
+
+            if (!isEnumerable)
             {
                 throw new InvalidOperationException("Only works on enums");
             }
 
-            var enumNames = Enum.GetNames(objectType);
+            bool isNullable = !objectType.IsEnum;
+
+            Type enumType = objectType;
+
+            if(isNullable)
+            {
+                enumType = objectType.GetGenericArguments()[0];
+            }
+
+            var enumNames = Enum.GetNames(enumType);
 
             foreach (var enumName in enumNames)
             {
@@ -31,8 +47,13 @@ namespace SpeedifyCliWrapper.Converters
 
                 if (lEnumName == lValue)
                 {
-                    return Enum.Parse(objectType, enumName);
+                    return Enum.Parse(enumType, enumName);
                 }
+            }
+
+            if(isNullable)
+            {
+                return null;
             }
 
             throw new KeyNotFoundException($"{value} couldn't be found in {objectType.Name}");

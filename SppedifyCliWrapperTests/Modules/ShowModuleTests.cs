@@ -62,5 +62,26 @@ namespace SppedifyCliWrapperTests.Modules
 
             Assert.IsNotNull(set);
         }
+
+        [TestMethod]
+        public void ShowDirectory()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.Directory();
+
+            Assert.IsNotNull(set);
+        }
+
+        [TestMethod]
+        public void ShowConnectMethod()
+        {
+            var wrapper = new Speedify();
+
+            var set = wrapper.Show.ConnectMethod();
+
+            Assert.IsNotNull(set);
+            Console.WriteLine(set.ConnectMethodString);
+        }
     }
 }

@@ -42,14 +42,14 @@ namespace SpeedifyCliWrapper.ReturnTypes
 
         [JsonProperty("state")]
         [JsonConverter(typeof(EnumConverter))]
-        public AdapterState State { get; set; }
+        public AdapterState? State { get; set; }
 
         [JsonProperty("type")]
         public string Type { get; set; }
 
         [JsonProperty("priority")]
         [JsonConverter(typeof(EnumConverter))]
-        public Priority Priority { get; set; }
+        public Priority? Priority { get; set; }
 
         [JsonProperty("connectedNetworkName")]
         public string ConnectedNetworkName { get; set; }

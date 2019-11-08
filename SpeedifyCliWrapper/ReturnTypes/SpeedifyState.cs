@@ -8,6 +8,6 @@ namespace SpeedifyCliWrapper.ReturnTypes
     {
         [JsonProperty("state")]
         [JsonConverter(typeof(EnumConverter))]
-        public ConnectionState State { get; set; }
+        public ConnectionState? State { get; set; }
     }
 }
