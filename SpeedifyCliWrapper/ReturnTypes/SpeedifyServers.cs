@@ -1,5 +1,6 @@
 ﻿using JetBrains.Annotations;
 using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Text;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyServers
+    public class SpeedifyServers : SpeedifyReturnedValue
     {
         [NotNull]
         [JsonProperty("public")]

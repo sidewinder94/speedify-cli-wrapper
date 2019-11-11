@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyVersion
+    public class SpeedifyVersion : SpeedifyReturnedValue
     {
         [JsonProperty("maj")]
         public int Major { get; set; }

@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpeedifyCliWrapper.Common;
 using SpeedifyCliWrapper.Converters;
 using SpeedifyCliWrapper.Enums;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyConnectMethod
+    public class SpeedifyConnectMethod : SpeedifyReturnedValue
     {
         [JsonIgnore]
         [JsonConverter(typeof(EnumConverter))]

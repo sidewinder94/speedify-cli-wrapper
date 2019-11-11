@@ -1,4 +1,5 @@
-﻿using SpeedifyCliWrapper.ReturnTypes;
+﻿using SpeedifyCliWrapper.Common;
+using SpeedifyCliWrapper.ReturnTypes;
 using System.Collections.Generic;
 
 namespace SpeedifyCliWrapper.Modules
@@ -30,7 +31,7 @@ namespace SpeedifyCliWrapper.Modules
         
         public List<SpeedifyAdapter> Adapters(int timeout = 60)
         {
-            return this._wrapper.RunSpeedifyCommand<List<SpeedifyAdapter>>(timeout, args: new[] { _moduleName, "adapters" });
+            return this._wrapper.RunSpeedifyCommand<SpeedifyCollection<SpeedifyAdapter>>(timeout, args: new[] { _moduleName, "adapters" });
         }
 
         public SpeedifyServer CurrentServer(int timeout = 60)

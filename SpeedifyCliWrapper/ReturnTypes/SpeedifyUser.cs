@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyUser
+    public class SpeedifyUser : SpeedifyReturnedValue
     {
         [JsonProperty("email")]
         public string Email { get; set; }

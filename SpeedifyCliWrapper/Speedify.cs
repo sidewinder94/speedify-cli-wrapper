@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using SpeedifyCliWrapper.Common;
 using SpeedifyCliWrapper.Enums;
 using SpeedifyCliWrapper.Modules;
 using SpeedifyCliWrapper.ReturnTypes;
@@ -72,11 +73,18 @@ namespace SpeedifyCliWrapper
 
         #region Run Command Methods
 
-        internal T RunSpeedifyCommand<T>(int timeout = 60, params string[] args)
+        internal T RunSpeedifyCommand<T>(int timeout = 60, params string[] args) where T : SpeedifyReturnedValue
         {
             var value = this.RunSpeedifyCommand(timeout, args);
 
-            return JsonConvert.DeserializeObject<T>(value);
+            var deserialized = JsonConvert.DeserializeObject<T>(value);
+
+            if(deserialized._wrapper == null)
+            {
+                deserialized._wrapper = this;
+            }
+
+            return deserialized;
         }
 
         private string RunSpeedifyCommand(int timeout = 60, params string[] args)
@@ -117,6 +125,18 @@ namespace SpeedifyCliWrapper
             {
                 p.WaitForExit(1);
                 p.Kill();
+            }
+
+            //Waiting for all data to be flushed in stdout....
+            var oldLenght = outputBuffer.Length;
+
+            Task.Delay(200).Wait();
+
+            while (oldLenght != outputBuffer.Length)
+            {
+                oldLenght = outputBuffer.Length;
+                Task.Delay(10).Wait();
+                p.WaitForExit(1);
             }
 
             p.WaitForExit(1);
@@ -201,15 +221,13 @@ namespace SpeedifyCliWrapper
                 p.Close();
             });
 
-
             while (!cancellationToken.IsCancellationRequested)
             {
                 p.WaitForExit(200);
             }
-
         }
 
-        private void HandleCustomJson<T>(string json, T objectToPopulate) where T : ICustomJson, new()
+        private void HandleCustomJson<T>(string json, T objectToPopulate) where T : ICustomJson
         {
             var jsonObject = JsonConvert.DeserializeObject(json);
             var jsonChildrens = ((JArray)jsonObject).Children();
@@ -250,7 +268,10 @@ namespace SpeedifyCliWrapper
         /// <remarks>A duration less than 3 will probably not return any result</remarks>
         public SpeedifyStats Stats(int duration = 3, int timeout = 60)
         {
-            var result = new SpeedifyStats();
+            var result = new SpeedifyStats()
+            {
+                _wrapper = this
+            };
 
             //Time at 3 is the minimum for which we'll get something back
             var fusedJson = this.RunSpeedifyCommand(args: new[] { "stats", duration.ToString() }, timeout: timeout);

@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 using SpeedifyCliWrapper.Converters;
 using SpeedifyCliWrapper.Enums;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifySettings
+    public class SpeedifySettings : SpeedifyReturnedValue
     {
         public class ForwardedPort
         {

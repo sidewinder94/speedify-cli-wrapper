@@ -1,11 +1,12 @@
 ﻿using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyServer
+    public class SpeedifyServer : SpeedifyReturnedValue
     {
         [JsonProperty("tag")]
         public string Tag { get; set; }

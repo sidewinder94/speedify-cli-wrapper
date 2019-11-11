@@ -1,8 +1,9 @@
 ﻿using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifySessionStats
+    public class SpeedifySessionStats : SpeedifyReturnedValue
     {
         [JsonProperty("bytesReceived")]
         public long BytesReceived { get; set; }

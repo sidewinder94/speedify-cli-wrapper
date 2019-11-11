@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
+using SpeedifyCliWrapper.Common;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyConnectionStats
+    public class SpeedifyConnectionStats : SpeedifyReturnedValue
     {
         public class Connection
         {

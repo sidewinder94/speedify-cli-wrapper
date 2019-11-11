@@ -1,12 +1,13 @@
 ﻿using System;
 using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 using SpeedifyCliWrapper.Converters;
 using SpeedifyCliWrapper.Enums;
 using SpeedifyCliWrapper.Modules;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyAdapter
+    public class SpeedifyAdapter : SpeedifyReturnedValue
     {
         public class AdapterDataUsage
         {

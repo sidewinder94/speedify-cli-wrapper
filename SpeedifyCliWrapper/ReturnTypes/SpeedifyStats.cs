@@ -7,10 +7,11 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using JetBrains.Annotations;
 using Newtonsoft.Json;
+using SpeedifyCliWrapper.Common;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyStats : ICustomJson, INotifyPropertyChanged
+    public class SpeedifyStats : SpeedifyReturnedValue, ICustomJson, INotifyPropertyChanged
     {
         [JsonProperty("state")]
         public SpeedifyState State
@@ -66,7 +67,7 @@ namespace SpeedifyCliWrapper.ReturnTypes
         private SpeedifyConnectionStats _connectionStats;
         private SpeedifySessionStats _sessionStats;
 
-        public SpeedifyStats()
+        internal SpeedifyStats()
         {
             this._accessorDictionary = this.GetType()
                 .GetProperties()
@@ -77,6 +78,10 @@ namespace SpeedifyCliWrapper.ReturnTypes
                         .ToDictionary(kv => kv.Key, v => v.Value);
         }
 
+        public SpeedifyStats(Speedify wrapper) : this()
+        {
+            this._wrapper = wrapper;
+        }
 
         public MethodInfo this[string part] => this._accessorDictionary[part];
 
