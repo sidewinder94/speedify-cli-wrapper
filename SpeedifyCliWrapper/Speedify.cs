@@ -130,16 +130,15 @@ namespace SpeedifyCliWrapper
             //Waiting for all data to be flushed in stdout....
             var oldLenght = outputBuffer.Length;
 
-            Task.Delay(200).Wait();
-
-            while (oldLenght != outputBuffer.Length)
+            do
             {
                 oldLenght = outputBuffer.Length;
-                Task.Delay(10).Wait();
-                p.WaitForExit(1);
-            }
+                Task.Delay(200).Wait();
+                p.WaitForExit(200);
+            } while (oldLenght != outputBuffer.Length);
 
             p.WaitForExit(1);
+
             p.Close();
 
             return outputBuffer.ToString();
@@ -280,7 +279,11 @@ namespace SpeedifyCliWrapper
 
             foreach (var json in splittedJson.Where(sj => !string.IsNullOrWhiteSpace(sj)))
             {
-                this.HandleCustomJson(json, result);
+                try
+                {
+                    this.HandleCustomJson(json, result);
+                }
+                catch { }
             }
 
             return result;
