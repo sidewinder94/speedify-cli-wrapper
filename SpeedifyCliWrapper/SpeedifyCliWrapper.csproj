@@ -4,11 +4,13 @@
     <TargetFrameworks>netstandard2.0;net462;net45</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.10-pre</Version>
-    <AssemblyVersion>1.0.10.0</AssemblyVersion>
-    <FileVersion>1.0.10.0</FileVersion>
-    <PackageReleaseNotes>Finished with the show module.
-The enums are now nullable in case an unexpected value occurs</PackageReleaseNotes>
+    <Version>1.0.11-pre</Version>
+    <AssemblyVersion>1.0.11.0</AssemblyVersion>
+    <FileVersion>1.0.11.0</FileVersion>
+    <PackageReleaseNotes>Created and added the first methods of the Adapter module, allowing to change adapter properties.
+Still needs to be tested</PackageReleaseNotes>
+    <Authors>Antoine-Ali Zarrouk</Authors>
+    <Company />
   </PropertyGroup>
 
   <ItemGroup>

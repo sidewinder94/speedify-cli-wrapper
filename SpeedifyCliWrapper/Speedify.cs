@@ -51,16 +51,23 @@ namespace SpeedifyCliWrapper
             }
         }
 
-        private Lazy<Show> _show;
+        private readonly Lazy<Show> _show;
+        private readonly Lazy<Adapter> _adapter;
 
         public Show Show
         {
             get => this._show.Value;
         }
 
+        public Adapter Adapter
+        {
+            get => this._adapter.Value;
+        }
+
         public Speedify()
         {
             this._show = new Lazy<Show>(() => new Show(this));
+            this._adapter = new Lazy<Adapter>(() => new Adapter(this));
         }
 
         #region Run Command Methods

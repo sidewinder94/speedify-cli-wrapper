@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using SpeedifyCliWrapper.Converters;
 using SpeedifyCliWrapper.Enums;
+using SpeedifyCliWrapper.Modules;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
