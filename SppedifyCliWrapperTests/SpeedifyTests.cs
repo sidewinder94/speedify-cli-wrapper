@@ -43,7 +43,7 @@ namespace SppedifyCliWrapperTests
 
             Assert.IsNotNull(pop);
             Assert.IsNotNull(pop.State);
-            Assert.IsTrue(updateCount > 3);
+            Assert.IsTrue(updateCount > 0, "Did not get updated");
         }
 
         [TestMethod]

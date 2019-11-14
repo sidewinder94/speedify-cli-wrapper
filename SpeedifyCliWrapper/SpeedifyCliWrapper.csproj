@@ -4,22 +4,45 @@
     <TargetFrameworks>netstandard2.0;net462;net45</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.12-pre</Version>
-    <AssemblyVersion>1.0.12.0</AssemblyVersion>
-    <FileVersion>1.0.12.0</FileVersion>
-    <PackageReleaseNotes>Created and added the first methods of the Adapter module, allowing to change adapter properties.
-Still needs to be tested.
-
-The reading from the CLI is now more robust for most calls (data is not flushed after each write, so the library needs to wait for all the data to be flushed)
-
-Prepared all the returned objects to be compatible with (extension) methods allowing to update them in Speedify as soon as they are updated in C#</PackageReleaseNotes>
+    <Version>1.0.13-pre</Version>
+    <AssemblyVersion>1.0.13.0</AssemblyVersion>
+    <FileVersion>1.0.13.0</FileVersion>
+    <PackageReleaseNotes>Created a code generation template to generate methods in partial classes for the return types allowing to call their related modules methods without having to go thourgh the wrapper =&gt; module agin (to ganaralize)</PackageReleaseNotes>
     <Authors>Antoine-Ali Zarrouk</Authors>
     <Company />
   </PropertyGroup>
 
   <ItemGroup>
+    <None Include="Modules\Adapter.partial.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Modules\Adapter.partial.tt</DependentUpon>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" Version="2019.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Modules\Adapter.partial.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Adapter.partial.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Modules\Adapter.partial.tt">
+      <DependentUpon>Modules\Adapter.cs</DependentUpon>
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>Adapter.partial.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 
 </Project>

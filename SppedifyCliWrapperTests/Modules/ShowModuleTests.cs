@@ -48,7 +48,6 @@ namespace SppedifyCliWrapperTests.Modules
             var wrapper = new Speedify();
 
             var set = wrapper.Show.Adapters();
-
             Assert.IsNotNull(set);
             Assert.IsTrue(set.Count > 0);
         }

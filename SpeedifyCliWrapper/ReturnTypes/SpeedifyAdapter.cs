@@ -7,9 +7,9 @@ using SpeedifyCliWrapper.Modules;
 
 namespace SpeedifyCliWrapper.ReturnTypes
 {
-    public class SpeedifyAdapter : SpeedifyReturnedValue
+    public partial class SpeedifyAdapter : SpeedifyReturnedValue
     {
-        public class AdapterDataUsage
+        public partial class AdapterDataUsage
         {
             [JsonProperty("usageMonthly")]
             public long UsageMonthly { get; set; }
