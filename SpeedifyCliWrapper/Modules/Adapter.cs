@@ -31,7 +31,12 @@ namespace SpeedifyCliWrapper.Modules
                 value = dataUsage.ToString();
             }
 
-            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] { Adapter._moduleName, "datalimit", "daily", adapter.AdapterId.ToString(), value });
+            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] {
+                Adapter._moduleName,
+                "datalimit",
+                "daily",
+                adapter.AdapterId.ToString(),
+                value });
         }
 
         /// <summary>
@@ -43,7 +48,12 @@ namespace SpeedifyCliWrapper.Modules
         /// <returns>An updated <see cref="SpeedifyAdapter"/> object</returns>
         public SpeedifyAdapter DailyDataBoost(SpeedifyAdapter adapter, long additionalData, int timeout = 60)
         {
-            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] { Adapter._moduleName, "datalimit", "dailyboost", adapter.AdapterId.ToString(), additionalData.ToString() });
+            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] {
+                Adapter._moduleName,
+                "datalimit",
+                "dailyboost",
+                adapter.AdapterId.ToString(),
+                additionalData.ToString() });
         }
 
         /// <summary>
@@ -54,7 +64,7 @@ namespace SpeedifyCliWrapper.Modules
         /// <param name="dayOfReset">day of the month to reset on, 0 for last 30 days, default : 0</param>
         /// <param name="timeout">Timeout for the command, default 60</param>
         /// <returns>An updated <see cref="SpeedifyAdapter"/> object</returns>
-        public SpeedifyAdapter MonthlyDataLimit(SpeedifyAdapter adapter, long? dataUsage = null, int dayOfReset = 0,int timeout = 60)
+        public SpeedifyAdapter MonthlyDataLimit(SpeedifyAdapter adapter, long? dataUsage = null, int dayOfReset = 0, int timeout = 60)
         {
             string value = "unlimited";
 
@@ -63,7 +73,22 @@ namespace SpeedifyCliWrapper.Modules
                 value = dataUsage.ToString();
             }
 
-            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] { Adapter._moduleName, "datalimit", "monthly", adapter.AdapterId.ToString(), value, value == "unlimited" ? "" : dayOfReset.ToString() });
+            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] {
+                Adapter._moduleName,
+                "datalimit",
+                "monthly",
+                adapter.AdapterId.ToString(),
+                value,
+                value == "unlimited" ? "" : dayOfReset.ToString() });
+        }
+
+        public SpeedifyAdapter SetEncryption(SpeedifyAdapter adapter, bool enable, int timeout = 60)
+        {
+            return this._wrapper.RunSpeedifyCommand<SpeedifyAdapter>(timeout, args: new[] {
+                Adapter._moduleName,
+                "encryption",
+                adapter.AdapterId.ToString(),
+                enable ? "on" : "off" });
         }
     }
 }

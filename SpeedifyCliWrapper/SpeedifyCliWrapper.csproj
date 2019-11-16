@@ -4,16 +4,18 @@
     <TargetFrameworks>netstandard2.0;net462;net45</TargetFrameworks>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.0.13-pre</Version>
-    <AssemblyVersion>1.0.13.0</AssemblyVersion>
-    <FileVersion>1.0.13.0</FileVersion>
-    <PackageReleaseNotes>Created a code generation template to generate methods in partial classes for the return types allowing to call their related modules methods without having to go thourgh the wrapper =&gt; module agin (to ganaralize)</PackageReleaseNotes>
+    <Version>1.0.14-pre</Version>
+    <AssemblyVersion>1.0.14.0</AssemblyVersion>
+    <FileVersion>1.0.14.0</FileVersion>
+    <PackageReleaseNotes>Moved the code template (should be generalized) 
+
+Added a method to control the encryption</PackageReleaseNotes>
     <Authors>Antoine-Ali Zarrouk</Authors>
     <Company />
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Modules\Adapter.partial.cs">
+    <None Include="Modules\Partials\Adapter.partial.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Modules\Adapter.partial.tt</DependentUpon>
@@ -30,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Modules\Adapter.partial.cs">
+    <Compile Update="Modules\Partials\Adapter.partial.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>Adapter.partial.tt</DependentUpon>
@@ -38,7 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Modules\Adapter.partial.tt">
+    <None Update="Modules\Partials\Adapter.partial.tt">
       <DependentUpon>Modules\Adapter.cs</DependentUpon>
       <Generator>TextTemplatingFileGenerator</Generator>
       <LastGenOutput>Adapter.partial.cs</LastGenOutput>
