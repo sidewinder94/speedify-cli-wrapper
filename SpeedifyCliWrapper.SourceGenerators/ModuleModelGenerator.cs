@@ -34,25 +34,25 @@ namespace SpeedifyCliWrapper.SourceGenerators
                     .DescendantNodes()
                     .OfType<AttributeSyntax>()
                     .FirstOrDefault(a => a.DescendantTokens().Any(dt => dt.IsKind(SyntaxKind.IdentifierToken) && semanticModel.GetTypeInfo(dt.Parent).Type.Name == attributeSymbol.Name))
-                    .DescendantTokens()
-                    .Where(dt => dt.IsKind(SyntaxKind.IdentifierToken))
-                    .ToList();
+                    ?.DescendantTokens()
+                    ?.Where(dt => dt.IsKind(SyntaxKind.IdentifierToken))
+                    ?.ToList();
+
+                    if(nodes == null)
+                    {
+                        continue;
+                    }
 
                     var relatedClass = semanticModel.GetTypeInfo(nodes.Last().Parent);
 
-                    foreach(var classMethod in declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)))
+                    foreach(MethodDeclarationSyntax classMethod in declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)))
                     {
-
-                    }
-
 #if GEN_DEBUG
-                    Debugger.Launch();
+                        Debugger.Launch();
 #endif
-
+                    }
                 }
             }
-
-
         }
 
         public void Initialize(GeneratorInitializationContext context)
