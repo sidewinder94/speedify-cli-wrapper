@@ -20,10 +20,6 @@ namespace SpeedifyCliWrapper.SourceGenerators
             var classWithAttributes = context.Compilation.SyntaxTrees.Where(st => st.GetRoot().DescendantNodes().OfType<ClassDeclarationSyntax>()
                     .Any(p => p.DescendantNodes().OfType<AttributeSyntax>().Any()));
 
-#if GEN_DEBUG
-            Debugger.Launch();
-#endif
-
             foreach (SyntaxTree tree in classWithAttributes)
             {
                 var semanticModel = context.Compilation.GetSemanticModel(tree);
@@ -43,10 +39,16 @@ namespace SpeedifyCliWrapper.SourceGenerators
                     .ToList();
 
                     var relatedClass = semanticModel.GetTypeInfo(nodes.Last().Parent);
-                    var dcoratedClass = semanticModel.GetTypeInfo(declaredClass);
-                    var classMethods = declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)).ToList();
 
-                    
+                    foreach(var classMethod in declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)))
+                    {
+
+                    }
+
+#if GEN_DEBUG
+                    Debugger.Launch();
+#endif
+
                 }
             }
 
