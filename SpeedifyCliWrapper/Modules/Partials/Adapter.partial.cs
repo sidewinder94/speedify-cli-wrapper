@@ -10,24 +10,24 @@ namespace SpeedifyCliWrapper.ReturnTypes
 {
     public partial class SpeedifyAdapter
     {
-		public SpeedifyAdapter DailyDataLimit (SpeedifyAdapter adapter, Nullable<long> dataUsage, int timeout = 60)
+		public SpeedifyAdapter DailyDataLimit(Nullable<long> dataUsage, int timeout = 60)
 		{
-			return this._wrapper.Adapter.DailyDataLimit(adapter, dataUsage, timeout);
+			return this._wrapper.Adapter.DailyDataLimit(this, dataUsage, timeout);
 		}
 
-		public SpeedifyAdapter DailyDataBoost (SpeedifyAdapter adapter, long additionalData, int timeout = 60)
+		public SpeedifyAdapter DailyDataBoost(long additionalData, int timeout = 60)
 		{
-			return this._wrapper.Adapter.DailyDataBoost(adapter, additionalData, timeout);
+			return this._wrapper.Adapter.DailyDataBoost(this, additionalData, timeout);
 		}
 
-		public SpeedifyAdapter MonthlyDataLimit (SpeedifyAdapter adapter, Nullable<long> dataUsage, int dayOfReset = 0, int timeout = 60)
+		public SpeedifyAdapter MonthlyDataLimit(Nullable<long> dataUsage, int dayOfReset = 0, int timeout = 60)
 		{
-			return this._wrapper.Adapter.MonthlyDataLimit(adapter, dataUsage, dayOfReset, timeout);
+			return this._wrapper.Adapter.MonthlyDataLimit(this, dataUsage, dayOfReset, timeout);
 		}
 
-		public SpeedifyAdapter SetEncryption (SpeedifyAdapter adapter, bool enable, int timeout = 60)
+		public SpeedifyAdapter SetEncryption(bool enable, int timeout = 60)
 		{
-			return this._wrapper.Adapter.SetEncryption(adapter, enable, timeout);
+			return this._wrapper.Adapter.SetEncryption(this, enable, timeout);
 		}
 
 	}

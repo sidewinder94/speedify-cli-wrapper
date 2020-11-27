@@ -69,6 +69,8 @@ namespace SpeedifyCliWrapper
         {
             this._show = new Lazy<Show>(() => new Show(this));
             this._adapter = new Lazy<Adapter>(() => new Adapter(this));
+
+            HelloWorldGenerated.HelloWorld.SayHello();
         }
 
         #region Run Command Methods

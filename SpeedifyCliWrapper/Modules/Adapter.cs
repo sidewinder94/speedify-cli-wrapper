@@ -1,10 +1,12 @@
 ﻿using SpeedifyCliWrapper.ReturnTypes;
+using SpeedifyCliWrapper.SourceGenerators.Annotations;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace SpeedifyCliWrapper.Modules
 {
+    [RelatedModel(typeof(SpeedifyAdapter))]
     public class Adapter
     {
         private Speedify _wrapper;
