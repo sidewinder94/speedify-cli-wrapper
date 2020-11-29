@@ -45,11 +45,14 @@ namespace SpeedifyCliWrapper.SourceGenerators
 
                     var relatedClass = semanticModel.GetTypeInfo(nodes.Last().Parent);
 
-                    foreach(MethodDeclarationSyntax classMethod in declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)))
+                    var generatedClass = this.GenerateClass(relatedClass);
+
+                    foreach(MethodDeclarationSyntax classMethod in declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)).OfType<MethodDeclarationSyntax>())
                     {
 #if GEN_DEBUG
                         Debugger.Launch();
 #endif
+                        var method = this.GenerateMethod(classMethod, generatedClass);
                     }
                 }
             }
@@ -58,6 +61,30 @@ namespace SpeedifyCliWrapper.SourceGenerators
         public void Initialize(GeneratorInitializationContext context)
         {
             // Nothing to do here
+        }
+
+        private string GenerateMethod(MethodDeclarationSyntax methodDeclaration, StringBuilder builder)
+        {
+            return String.Empty;
+        }
+
+        private StringBuilder GenerateClass(TypeInfo relatedClass)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append(@"
+using System;
+using System.Collections.Generic;
+using SpeedifyCliWrapper.Common;
+
+namespace SpeedifyCliWrapper.ReturnTypes
+{
+    public partial class " + relatedClass.Type.Name);
+
+            sb.Append(@"
+{");
+
+            return sb;
         }
     }
 }
