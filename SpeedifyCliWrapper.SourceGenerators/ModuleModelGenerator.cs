@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Text;
 using SpeedifyCliWrapper.SourceGenerators.Annotations;
 using System;
 using System.Collections.Generic;
@@ -49,11 +50,17 @@ namespace SpeedifyCliWrapper.SourceGenerators
 
                     foreach(MethodDeclarationSyntax classMethod in declaredClass.Members.Where(m => m.IsKind(SyntaxKind.MethodDeclaration)).OfType<MethodDeclarationSyntax>())
                     {
+                        this.GenerateMethod(declaredClass.Identifier, relatedClass, classMethod, ref generatedClass);
+                    }
+
+                    this.CloseClass(generatedClass);
+
+                    var @class = generatedClass.ToString();
+
 #if GEN_DEBUG
                         Debugger.Launch();
 #endif
-                        var method = this.GenerateMethod(classMethod, generatedClass);
-                    }
+                    context.AddSource($"{declaredClass.Identifier}_{relatedClass.Type.Name}", SourceText.From(generatedClass.ToString(), Encoding.UTF8));
                 }
             }
         }
@@ -63,9 +70,21 @@ namespace SpeedifyCliWrapper.SourceGenerators
             // Nothing to do here
         }
 
-        private string GenerateMethod(MethodDeclarationSyntax methodDeclaration, StringBuilder builder)
+        private void GenerateMethod(SyntaxToken moduleName, TypeInfo relatedClass, MethodDeclarationSyntax methodDeclaration, ref StringBuilder builder)
         {
-            return String.Empty;
+            var signature = $"{methodDeclaration.Modifiers} {relatedClass.Type.Name} {methodDeclaration.Identifier}(";
+
+            var parameters = methodDeclaration.ParameterList.Parameters.Skip(1);
+
+            signature += string.Join(", ", parameters.Select(p => p.ToString())) + ")";
+
+            var methodCall = $"return this._wrapper.{moduleName}.{methodDeclaration.Identifier}(this, {string.Join(", ", parameters.Select(p => p.Identifier.ToString()))});";
+
+            builder.AppendLine(@"
+        " + signature + @"
+        {
+            " + methodCall + @"
+        }");
         }
 
         private StringBuilder GenerateClass(TypeInfo relatedClass)
@@ -82,9 +101,15 @@ namespace SpeedifyCliWrapper.ReturnTypes
     public partial class " + relatedClass.Type.Name);
 
             sb.Append(@"
-{");
+    {");
 
             return sb;
+        }
+        private void CloseClass(StringBuilder generatedClass)
+        {
+            generatedClass.Append(
+@"    }
+}");
         }
     }
 }
