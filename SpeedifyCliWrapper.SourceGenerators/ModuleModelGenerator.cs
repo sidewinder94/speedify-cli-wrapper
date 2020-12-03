@@ -3,9 +3,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Text;
 using SpeedifyCliWrapper.SourceGenerators.Annotations;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
@@ -55,11 +52,6 @@ namespace SpeedifyCliWrapper.SourceGenerators
 
                     this.CloseClass(generatedClass);
 
-                    var @class = generatedClass.ToString();
-
-#if GEN_DEBUG
-                        Debugger.Launch();
-#endif
                     context.AddSource($"{declaredClass.Identifier}_{relatedClass.Type.Name}", SourceText.From(generatedClass.ToString(), Encoding.UTF8));
                 }
             }
