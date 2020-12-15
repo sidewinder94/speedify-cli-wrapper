@@ -305,7 +305,7 @@ namespace SpeedifyCliWrapper
                 cancel.CancelAfter(new TimeSpan(0, 0, duration));
             }
 
-            this.AsynRefreshStats(toRefresh, cancel.Token, timeout).Wait();
+            this.AsyncRefreshStats(toRefresh, cancel.Token, timeout).Wait();
         }
 
         /// <summary>
@@ -315,14 +315,13 @@ namespace SpeedifyCliWrapper
         /// <param name="cancellationToken">The cancellation token used to check if the method should stop</param>
         /// <param name="timeout">If hit before the cancellation token is cancelled, the refresh will stop</param>
         /// <returns>The task that is running the refresh.</returns>
-        public Task AsynRefreshStats(SpeedifyStats toRefresh, CancellationToken cancellationToken, int timeout = 0)
+        public Task AsyncRefreshStats(SpeedifyStats toRefresh, CancellationToken cancellationToken, int timeout = 0)
         {
             return Task.Run(() =>
             {
                 this.LongRunningSpeedifyCommand(s => this.HandleCustomJson(s, toRefresh), cancellationToken,
                     timeout, "stats");
             });
-
         }
 
         #endregion
